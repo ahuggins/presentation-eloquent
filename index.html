@@ -655,6 +655,7 @@ Returns a collection of the first 10 items you are querying.
 
 ---
 # Eager Loading
+
 ## Relationships Make Multiple Queries
 In some cases, this won't matter, but sometimes you can end up with 100 queries on a page load without even realizing it.
 
@@ -696,6 +697,41 @@ $casts = [
 
 > Additional properties: `$touches`, `$hidden`, `$visible`, `$appends`
 
+---
+layout: true
+## Accessors & Mutators
+---
+
+Want a value formated a certain way every time you use it? Set an Accessor.
+
+On the model:
+
+```php
+public function getFirstNameAttribute($value)
+{
+    return ucfirst($value);
+}
+
+// DB: andy   Access: $user->firstName  Output: Andy
+```
+
+> You do not access these as `getFirstNameAttribute()`, you simply access the field like normal, now it will be formatted.
+
+---
+
+Want a value formatted every time you store it? Set a Mutator.
+
+```php
+public function setFirstNameAttribute($value)
+{
+    $this->attributes['first_name'] = ucfirst($value);
+}
+
+// Input: andy  DB: Andy
+```
+
+> `set` for Mutator and `get` for Accessor
+
 
 ---
 name: last-page
@@ -713,6 +749,9 @@ Slides: http://ahuggins.github.io/presentation-eloquent/
 
     Slideshow created using http://github.com/gnab/remark
 ]
+
+???
+Mention Laracasts coupon code 30% off (if it still works)
     </textarea>
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js"></script>
     <script>
