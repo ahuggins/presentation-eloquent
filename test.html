@@ -63,7 +63,7 @@
         text-shadow: 0 0 20px #333;
       }
       .inverse h1, .inverse h2 {
-        color: #f3f3f3;
+        color: #F4645F;
         line-height: 0.8em;
       }
 
@@ -117,6 +117,15 @@
         float: right;
         padding-top: 1em;
       }
+      blockquote {
+        color: #aaa;
+        font-size: 18px;
+      }
+      blockquote:before {
+            content: '>';
+            float: left;
+            padding-right: 10px;
+        }
     </style>
   </head>
   <body>
@@ -137,10 +146,8 @@ In other words, it's a database interaction abstraction.
 Active Record differs from Data Mapper in that an AR model generally represents one row in the database.
 ---
 layout: false
-.left-column[
-  ## What is it actually?
-]
-.right-column[
+
+## What is it actually?
 
 ### Technical Jargon
 
@@ -149,335 +156,547 @@ layout: false
 * Active Record
 * Data Mapper
 
-### Real Talk
+### Keeping it Real
 
 - You have an object that is representative of your database tables and rows
 
 - A way of representing your database values with an object you can easily use in your applications
-]
----
-layout: false
-.left-column[
-  ## What is it actually?
-  ## Let's look at an example
-]
-.right-column[
-
-### Users Table in Database
-
-* ORM
-* Object Relational Mapper
-* Active Record
-* Data Mapper
-
-### Real Talk
-
-- You have an object that is representative of your database tables and rows
-
-- A way of representing your database values with an object you can easily use in your applications
-]
----
-.left-column[
-  ## What is it?
-  ## Why use it?
-]
-.right-column[
-If your ideal slideshow creation workflow contains any of the following steps:
-
-- Just write what's on your mind
-
-- Do some basic styling
-
-- Easily collaborate with others
-
-- Share with and show to everyone
-
-Then remark might be perfect for your next.red[*] slideshow!
-
-.footnote[.red[*] You probably want to convert existing slideshows as well]
-]
----
-.left-column[
-  ## What is it?
-  ## Why use it?
-]
-.right-column[
-As the slideshow is expressed using Markdown, you may:
-
-- Focus on the content, expressing yourself in next to plain text not worrying what flashy graphics and disturbing effects to put where
-
-As the slideshow is actually an HTML document, you may:
-
-- Display it in any decent browser
-
-- Style it using regular CSS, just like any other HTML content
-
-- Use it offline!
-
-As the slideshow is contained in a plain file, you may:
-
-- Store it wherever you like; on your computer, hosted from your Dropbox, hosted on Github Pages alongside the stuff you're presenting...
-
-- Easily collaborate with others, keeping track of changes using your favourite SCM tool, like Git or Mercurial
-]
----
-template: inverse
-
-## How does it work, then?
----
-name: how
-
-.left-column[
-  ## How does it work?
-### - Markdown
-]
-.right-column[
-A Markdown-formatted chunk of text is transformed into individual slides by JavaScript running in the browser:
-
-```remark
-# Slide 1
-This is slide 1
 
 ---
+### Database Interaction
 
-# Slide 2
-This is slide 2
-```
-
-.slides[
-  .first[
-  ### Slide 1
-  This is slide 1
-  ]
-  .second[
-  ### Slide 2
-  This is slide 2
-  ]
-]
-
-Regular Markdown rules apply with only a single exception:
-
-  - A line containing three dashes constitutes a new slide
-  (not a horizontal rule, `&lt;hr /&gt;`)
-
-Have a look at the [Markdown website](http://daringfireball.net/projects/markdown/) if you're not familiar with Markdown formatting.
-]
----
-.left-column[
-  ## How does it work?
-  ### - Markdown
-  ### - Inside HTML
-]
-.right-column[
-A simple HTML document is needed for hosting the styles, Markdown and the generated slides themselves:
-
-```xml
-<!DOCTYPE html>
-<html>
-  <head>
-    <style type="text/css">
-      /* Slideshow styles */
-    </style>
-  </head>
-  <body>
-*    <textarea id="source">
-      <!-- Slideshow Markdown -->
-    &lt;/textarea&gt;
-*    <script src="remark.js">
-    </script>
-    <script>
-*      var slideshow = remark.create();
-    </script>
-  </body>
-</html>
-```
-
-You may download remark to have your slideshow not depend on any online resources, or reference the [latest version](http://remarkjs.com/downloads/remark-latest.min.js) online directly.
-]
----
-template: inverse
-
-## Of course, Markdown can only go so far.
----
-.left-column[
-  ## Markdown extensions
-]
-.right-column[
-To help out with slide layout and formatting, a few Markdown extensions have been included:
-
-- Slide properties, for naming, styling and templating slides
-
-- Content classes, for styling specific content
-
-- Syntax highlighting, supporting a range of languages
-]
-
----
-.left-column[
-  ## Markdown extensions
-  ### - Slide properties
-]
-.right-column[
-Initial lines containing key-value pairs are extracted as slide properties:
-
-```remark
-name: agenda
-class: middle, center
-
-# Agenda
-
-The name of this slide is {{ name }}.
-```
-
-Slide properties serve multiple purposes:
-
-* Naming and styling slides using properties `name` and `class`
-
-* Using slides as templates using properties `template` and `layout`
-
-* Expansion of `{{ property }}` expressions to property values
-
-See the [complete list](https://github.com/gnab/remark/wiki/Markdown#slide-properties) of slide properties.
-]
----
-.left-column[
-  ## Markdown extensions
-  ### - Slide properties
-  ### - Content classes
-]
-.right-column[
-Any occurences of one or more dotted CSS class names followed by square brackets are replaced with the contents of the brackets with the specified classes applied:
-
-```remark
-.footnote[.red.bold[*] Important footnote]
-```
-
-Resulting HTML extract:
-
-```xml
-<span class="footnote">
-  <span class="red bold">*</span> Important footnote
-</span>
-```
-]
----
-.left-column[
-  ## Markdown extensions
-  ### - Slide properties
-  ### - Content classes
-  ### - Syntax Highlighting
-]
-.right-column[
-Code blocks can be syntax highlighted by specifying a language from the set of [supported languages](https://github.com/gnab/remark/wiki/Configuration#highlighting).
-
-Using [GFM](http://github.github.com/github-flavored-markdown/) fenced code blocks you can easily specify highlighting language:
-
-.pull-left[
-
-<pre><code>```javascript
-function add(a, b)
-  return a + b
-end
-```</code></pre>
-]
-.pull-right[
-
-<pre><code>```ruby
-def add(a, b)
-  a + b
-end
-```</code></pre>
-]
-
-A number of highlighting [styles](https://github.com/gnab/remark/wiki/Configuration#highlighting) are available, including several well-known themes from different editors and IDEs.
-
-]
----
-.left-column[
-  ## Presenter mode
-]
-.right-column[
-To help out with giving presentations, a presenter mode comprising the
-following features is provided:
-
-- Display of slide notes for the current slide, to help you remember
-  key points
-
-- Display of upcoming slide, to let you know what's coming
-
-- Cloning of slideshow for viewing on extended display
-]
----
-.left-column[
-  ## Presenter mode
-  ### - Inline notes
-]
-.right-column[
-Just like three dashes separate slides,
-three question marks separate slide content from slide notes:
+#### Raw SQL
 
 ```
-Slide 1 content
-
-*???
-
-Slide 1 notes
-
----
-
-Slide 2 content
-
-*???
-
-Slide 2 notes
+SELECT * FROM posts LIMIT 1
 ```
+--
+#### PDO Example
+```php
+$query=$db->prepare("Select * from ? LIMIT 1");
 
-Slide notes are also treated as Markdown, and will be converted in the
-same manner slide content is.
+$query->excute(array($myinsecuredata));
 
-Pressing __P__ will toggle presenter mode.
-]
+while($row=$query->fetch(PDO::FETCH_OBJ)) {
+
+        echo $row->yourcolumnname;
+    }
+```
+--
+#### Eloquent Equivalent
+```php
+$post = Post::first();
+$post->columnName;
+```
 ???
-Congratulations, you just toggled presenter mode!
+To be fair, you would write something around the PDO example to make it easier to work with. You shouldn't write all of that in your view code. Which is really what Eloquent has basically already done for you.
 
-Now press __P__ to toggle it back off.
 ---
-.left-column[
-  ## Presenter mode
-  ### - Inline notes
-  ### - Cloned view
-]
-.right-column[
-Presenter mode of course makes no sense to the audience.
 
-Creating a cloned view of your slideshow lets you:
+## Define a Post Model 
 
-- Move the cloned view to the extended display visible to the audience
+```php
+<?php
 
-- Put the original slideshow in presenter mode
+namespace App;
 
-- Navigate as usual, and the cloned view will automatically keep up with the original
+use Illuminate\Database\Eloquent\Model;
 
-Pressing __C__ will open a cloned view of the current slideshow in a new
-browser window.
-]
+class Post extends Model
+{
+    //
+}
+
+```
+
+--
+
+## Yes, that's all you 'have' to define.
+
+--
+
+> You can generate models with Laravel Artisan (a command line tool).
+
+```
+$ php artisan make:model Post
+```
+
 ---
+
+# Create a Post
+
+```php 
+$post = [
+    'title' => 'My Killer Post',
+    'teaser' => 'Guy finds hole in ground, you wont believe what he found inside',
+    'content' => 'Really he didnt find anything, this is click-bait, come on.'
+];
+
+Post::create($post);
+```
+--
+```php
+Post::create([
+    'title' => 'My Killer Post',
+    'teaser' => 'Guy finds hole in ground, you wont believe what he found inside',
+    'content' => 'Really he didnt find anything, this is click-bait, come on.'
+]);
+```
+--
+```php
+Post::create($request->all());
+```
+
+---
+## Nobody Expects the MassAssignmentException
+![](images/mass-assignment.png)
+
+.center[![](images/massassignmentmeme.jpg)]
+
+---
+
+## Update the $fillable property to allow us to assign values
+
+```php
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Post extends Model
+{
+    protected $fillable = [
+        'title',
+        'teaser',
+        'content'
+    ];
+}
+
+```
+
+---
+
+## Post now successfully creates
+
+```php 
+$post = Post::create($request->all());
+
+$post->title; // My Killer Post
+$post->teaser; // Guy finds hole in ground, you wont believe what he found inside
+$post->content; // Really he didnt find anything, this is click-bait, come on.
+```
+
+--
+
+## Now Marketing wants to change something...of course.
+
+```php
+$post = Post::find($id);
+
+$post->title = 'This post will blow your mind';
+
+$post->save();
+
+```
+
+```php
+Post::find($id)->update(['title' => 'People are dying reading this']);
+```
+
+```php
+Post::find($id)->update($request->all());
+```
+
+---
+## OMG, delete the evidence
+
+```php
+Post::find($id)->delete();
+```
+--
+## But also you can do this:
+```php
+Post::destroy([1, 2, 3]); // an array of ids you want to delete
+```
+
+---
+## Soft Deletes
+1. In order to enable a model to be able to be soft deleted, you need to make sure your DB table has the `deleted_at` field. (Migrations allow this easily with `softDeletes()` function).
+1. You need to use the SoftDeletes Trait
+
+```php
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Post extends Model
+{
+    use SoftDeletes;
+}
+```
+
+Now `$post->delete();` and `Post::destroy([$id]);` will mark posts as deleted instead of deleting the rows.
+
+--
+
+Soft deleting has functions available like `forceDelete()`, `restore()`, `withTrashed()`, `onlyTrashed()`, `history()`, `trashed()`
+
+---
+## Everybody with me so far?
+
+Any quick questions?
+
+---
+## Reminder - This is what our Post model looks like:
+
+```php
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Post extends Model
+{
+    use SoftDeletes;
+
+    protected $fillable = [
+        'title',
+        'teaser',
+        'content'
+    ];
+}
+
+```
+
+We have created, updated, deleted, rows and above is all we have written in our model. Eloquent has got our back.
+
+> Eloquent uses Inheritance to achieve this.
+
+---
+## How does it even know which table to use?
+By default Eloquent looks at the class name, `Post` in this case, it lowercases and pluralizes it; `posts` and looks for that in our DB.
+
+--
+## Want to change the table? No Problem.
+On your model add a `$table` property and set it to the table it needs to be.
+```php
+protected $table = 'blogPosts';
+```
+
+> The idea here is that it matches our natural language. 
+
+> We have a `posts` table that contains posts.
+
+> Our model is a single `Post` which is the name of the class.
+
+---
+## Basic Queries
+### All Records for a model
+
+```php
+$posts = Post::all();
+```
+
+--
+
+```php
+[
+    {
+        id: 1,
+        title: "People are dying reading this",
+        content: "Really he didnt find anything, this is click-bait, come on.",
+        published_at: "2016-04-10 00:08:09",
+        author_id: 1,
+        teaser: "Guy finds hole in ground, you wont believe what he found inside",
+        created_at: "2016-04-10 22:03:58",
+        updated_at: "2016-04-17 23:48:44"
+    },
+    {
+        id: 2,
+        title: "Example Post",
+        content: "Some Killer content",
+        published_at: "2016-04-13 00:08:15",
+        author_id: 2,
+        teaser: "OMG, check this out.",
+        created_at: "2016-04-13 00:07:04",
+        updated_at: "2016-04-18 00:07:04"
+    }
+]
+```
+
+---
+## Basic Queries - Constraints
+
+```php
+$posts = Post::where('author_id', '=', 1)->get();
+```
+
+--
+
+If operator is `'='` then you can omit it:
+
+```php
+$posts = Post::where('author_id', 1)->get();
+```
+
+--
+
+Operator can be `>`, `>=`, `<`, `<=`, `!=`, `<>` or any other operator
+
+--
+```php
+$posts = Post::where('author_id', 1)->orderBy('published_at')->get();
+
+$posts = Post::where('author_id', 1)->orderBy('published_at', 'DESC')->get();
+
+// ASC is default so can be omitted as second argument
+```
+
+---
+## Eloquent is Chainable
+```php
+$posts = Post::where('posts.published_at', '<', Carbon::now())
+        ->where('author_id', 1)
+        ->join('users', 'users.id', '=', 'posts.author_id')
+        ->select('posts.*', 'users.email')
+        ->orderBy('posts.published_at', 'DESC')
+        ->get();
+```
+
+--
+`leftJoin()`, `crossJoin()`, `union()`, `unionAll()`, `whereNull()`, `whereBetween()`, `whereIn()`, `whereNotIn()`, `whereNotNull()`, `orWhere()` and more
+
+You can also pass an array of `where` statements to `where()`.
+
+```php
+Post::where([
+    'author' => 1,
+    'published' => 1
+])->get();
+```
+
+Safe to say, you can do most queries with the fluent Eloquent syntax
+
+---
+## What do you think...good code, bad code?
+```php
+$posts = Post::where('posts.published_at', '<', Carbon::now())
+        ->where('author_id', 1)
+        ->join('users', 'users.id', '=', 'posts.author_id')
+        ->select('posts.*', 'users.email')
+        ->get();
+```
+
+--
+I think it is good. This saves you a ton of code already and is easy to read.
+
+However, Eloquent can make this significantly better still. 
+
+---
+
 template: inverse
+# Good to Great
 
-## It's time to get started!
 ---
-.left-column[
-  ## Getting started
-]
-.right-column[
-Getting up and running is done in only a few steps:
+## Custom Scopes
+We can define a scope on our model, and then use it to make queries.
 
-1. Visit the [project site](http://github.com/gnab/remark)
+Think of scope as "limit" or "where".
 
-2. Follow the steps in the Getting Started section
+On our Post model we will make a 'Published' scope:
 
-For more information on using remark, please check out the [wiki](https://github.com/gnab/remark/wiki) pages.
-]
+```php
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Post extends Model
+{
+    use SoftDeletes;
+
+    protected $fillable = [
+        'title',
+        'teaser',
+        'content'
+    ];
+
+    public function scopePublished($query)
+    {
+        return $query->where('published_at', '<=', \Carbon\Carbon::now());
+    }
+}
+```
+
+---
+## Using our Scope
+```php
+$posts = Post::published()
+        ->where('author_id', 1)
+        ->join('users', 'users.id', '=', 'posts.author_id')
+        ->select('posts.*', 'users.email')
+        ->get();
+```
+
+We can now call `published()` in our chain on our Post model. If we litter our code with `Post::where('published_at', '<=', \Carbon\Carbon::now())->get()` and we need to make a change, we have to go find all uses of this code and update them. 
+
+Using a scope, we can easily update our app when changes happen.
+
+--
+
+> Hmm, what to do now? How do we improve this further?
+
+> We could create more scopes, but what about that join?
+
+> Wouldn't it be cool if we could define the relationship between `posts` and `users` somehow?
+
+---
+## Relationships
+You can define relationships on models. Let's add one to our `Post` model.
+
+```php
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Post extends Model
+{
+    use SoftDeletes;
+
+    protected $fillable = [
+        'title',
+        'teaser',
+        'content'
+    ];
+
+    public function scopePublished($query)
+    {
+        return $query->where('published_at', '<=', \Carbon\Carbon::now());
+    }
+
+    public function author()
+    {
+        $this->belongsTo(User::class);
+    }
+}
+```
+
+---
+## Accessing Relationships
+```php
+$post = Post::published()->first();
+
+$post->author->email; // testing@test.com
+```
+
+`$post->author` returns an instance of our User model allowing access to the `email` property.
+
+--
+
+When we did this query:
+
+```php
+$post = Post::published()
+        ->where('author_id', 1)
+        ->join('users', 'users.id', '=', 'posts.author_id')
+        ->select('posts.*', 'users.email')
+        ->first();
+```
+
+`$post` contains the author email. That's a little weird.
+
+The Relationship style, we access the author as a property on our Post model, and the email as a property of the author/User. That makes sense.
+
+`$post->author->email` instead of `$post->email`
+
+---
+## Types of Relationships
+* One To One
+    * `return $this->hasOne(Model::class);`
+    * `return $this->belongsTo(Model::class);`
+* One To Many
+    * `return $this->hasMany(Model::class);`
+* Many to Many
+    * `return $this->belongsToMany(Model::class);`
+* Has Many Through
+    * `return $this->hasManyThrough(Model::class, Connecting::class);`
+* Polymorphic Relations
+    * Requires things to be set on multiple models. (See docs)
+
+---
+
+## first(), get(), all(), paginate()
+These execute the query, and return different things.
+
+#### first()
+Returns the object model for the given query.
+
+#### get()
+Returns a collection of items limited to a `$perPage` property on the model.
+
+#### all()
+Returns a collection of all items.
+
+#### paginate(10)
+Returns a collection of the first 10 items you are querying.
+
+### Collections are a like arrays, but with additional features.
+
+---
+# Eager Loading
+## Relationships Make Multiple Queries
+In some cases, this won't matter, but sometimes you can end up with 100 queries on a page load without even realizing it.
+
+--
+
+## `with()` will consolidate queries
+
+```php
+$post = Post::published()->with('author')->first();
+```
+
+You can also define `$with` as a property on the model if you think you will always need the relationship. Like a User and a Profile.
+
+---
+## Additional Properties you can define
+
+```php
+$primaryKey = 'id'; // In case your id column has a different name
+
+$timestamps = false; // If this model doesn't use timestamps. Default is true
+
+$incrementing = false; // Let's Eloquent know if your primaryKey is not incrementing like a UUID
+
+// Makes any date fields an instance of Carbon
+$dates = ['published_at', 'created_at', 'updated_at']; 
+
+// The alternate to $fillable, you can set which fields are not Mass Assignable 
+// (the rest are MA)
+$guarded = ['columnName'];
+// Generally, $fillable is preferred. Use either $fillable or $guarded, not both.
+
+$casts = [
+    'is_admin' => 'boolean',
+    'published_at' => 'date' // returns a Carbon instance like `created_at`
+];
+```
+
+> Available cast types: `integer`, `real`, `float`, `double`, `string`, `boolean`, `object`, `array`, `collection`, `date`, `datetime`, and `timestamp`.
+
+> Additional properties: `$touches`, `$hidden`, `$visible`, `$appends`
+
+
 ---
 name: last-page
 template: inverse
