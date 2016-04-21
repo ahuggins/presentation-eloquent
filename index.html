@@ -308,6 +308,8 @@ Post::find($id)->update(['title' => 'People are dying reading this']);
 Post::find($id)->update($request->all());
 ```
 
+`saveMany();  // pass an array of models`
+
 ---
 ## OMG, delete the evidence
 
@@ -587,7 +589,7 @@ class Post extends Model
 
     public function author()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 }
 ```
@@ -635,6 +637,90 @@ The Relationship style, we access the author as a property on our Post model, an
     * Requires things to be set on multiple models. (See docs)
 
 ---
+### Polymorphic Relations
+Polymorphic relations allow a model to belong to more than one other model on a single association. For example, imagine users of your application can "like" both posts and comments. Using polymorphic relationships, you can use a single likes table for both of these scenarios. First, let's examine the table structure required to build this relationship:
+
+Likes
+
+![](images/favoritestable.png)
+
+---
+```php
+class Like extends Model
+{
+    /**
+     * Get all of the owning likeable models.
+     */
+    public function likeable()
+    {
+        return $this->morphTo();
+    }
+}
+
+class Post extends Model
+{
+    /**
+     * Get all of the product's likes.
+     */
+    public function likes()
+    {
+        return $this->morphMany('App\Like', 'likeable');
+    }
+}
+
+class Comment extends Model
+{
+    /**
+     * Get all of the comment's likes.
+     */
+    public function likes()
+    {
+        return $this->morphMany('App\Like', 'likeable');
+    }
+}
+```
+
+---
+## Query Relations
+```php
+$user = App\User::find(1);
+
+$user->posts()->where('active', 1)->get();
+```
+
+--
+
+## Insert with Relationship
+```php
+$user = App\User::find(1);
+// This will attribute the post to the user.
+$user->posts()->create($request->all());
+```
+
+
+---
+
+## Relationship methods vs Dynamic Properties
+
+### Calling a Relationship like a property
+When you call the relationship like a property, Eloquent returns a Collection.
+```php
+$user = App\User::find(1);
+
+$user->posts;
+```
+
+### Calling a Relationship like a method
+When you refer to the relationship as a method, Eloquent returns an instance of the Relationship.
+```php
+$user = App\User::find(1);
+
+$user->posts();
+```
+
+This means, when referencing like a METHOD, you can call additional constraints. As a PROPERTY, you would be manipulating a collection.
+
+---
 
 ## first(), get(), all(), paginate()
 These execute the query, and return different things.
@@ -652,6 +738,82 @@ Returns a collection of all items.
 Returns a collection of the first 10 items you are querying.
 
 ### Collections are a like arrays, but with additional features.
+
+---
+## Collections
+As mentioned, this are like super arrays.
+
+How many times have you written this:
+```php
+    $result = [];
+    foreach ($family as $member) {
+       $result[] = strtoupper($member);
+    }
+    return $result;
+```
+
+Now when you have a collection you can use `map()`
+```php
+$collection->map(function($name) {
+    return strtoupper($name);
+});
+```
+
+## Available Methods
+
+`all`
+`chunk`
+`collapse`
+`contains`
+`count`
+`diff`
+`each`
+`every`
+`filter`
+`first`
+`flatten`
+`flip`
+`forget`
+`forPage`
+`get`
+`groupBy`
+`has`
+`implode`
+`intersect`
+`isEmpty`
+`keyBy`
+`keys`
+`last`
+`map`
+`merge`
+`pluck`
+`pop`
+`prepend`
+`pull`
+`push`
+`put`
+`random`
+`reduce`
+`reject`
+`reverse`
+`search`
+`shift`
+`shuffle`
+`slice`
+`sort`
+`sortBy`
+`sortByDesc`
+`splice`
+`sum`
+`take`
+`toArray`
+`toJson`
+`transform`
+`unique`
+`values`
+`where`
+`whereLoose`
+`zip`
 
 ---
 # Eager Loading
@@ -733,6 +895,52 @@ public function setFirstNameAttribute($value)
 > `set` for Mutator and `get` for Accessor
 
 ---
+layout: false
+
+## Custom Methods
+
+We could litter calls to the same code throughout our application, but updating that is going to be a pain. If you find yourself writing the same "where" clause or anything, consider writing a custom method that will keep your code clean and easy to read.
+
+#### Example
+```php
+$user = User::where('username', $username)->first();
+```
+
+This example is super easy, yes you can easily read this and figure out, this is an example though. And still, if you have this in your code like 20 times, and you need to update something about it, then you have to go find all the places you wrote this code.
+
+#### Instead make a custom method
+```php
+// User Model
+public static function findByUsername($username) {
+    return static::where('username', $username)->first;
+}
+```
+
+---
+layout: false
+### Now This:
+```php
+$user = User::where('username', $username)->first();
+```
+
+### Would Be:
+```php
+$user = User::findByUsername($username);
+```
+
+--
+
+Now, when you come back to this code in 6 months, you will know exactly what is going on here.
+
+---
+## Wait wait there's more
+
+--
+
+.center[![](images/Notime.jpg)]
+
+---
+layout: false
 name: last-page
 template: inverse
 
