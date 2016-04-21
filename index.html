@@ -933,6 +933,15 @@ $user = User::findByUsername($username);
 Now, when you come back to this code in 6 months, you will know exactly what is going on here.
 
 ---
+## Events
+When an Eloquent model creates a record, updates, deletes and some other type of event...an event is fired.
+
+### Available events to hook into
+`creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`
+
+You can have code execute each time one of these events are fired. So if you need a certain piece of data, or a notification fired. You can move that code out of your controller and have it be reusable.
+
+---
 ## Wait wait there's more
 
 --
