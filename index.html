@@ -449,8 +449,6 @@ If operator is `'='` then you can omit it:
 $posts = Post::where('author_id', 1)->get();
 ```
 
---
-
 Operator can be `>`, `>=`, `<`, `<=`, `!=`, `<>` or any other operator
 
 --
@@ -843,13 +841,13 @@ $timestamps = false; // If this model doesn't use timestamps. Default is true
 
 $incrementing = false; // Let's Eloquent know if your primaryKey is not incrementing like a UUID
 
-// Makes any date fields an instance of Carbon
-$dates = ['published_at', 'created_at', 'updated_at']; 
-
 // The alternate to $fillable, you can set which fields are not Mass Assignable 
 // (the rest are MA)
 $guarded = ['columnName'];
 // Generally, $fillable is preferred. Use either $fillable or $guarded, not both.
+
+// Makes any date fields an instance of Carbon
+$dates = ['published_at', 'created_at', 'updated_at']; 
 
 $casts = [
     'is_admin' => 'boolean',
